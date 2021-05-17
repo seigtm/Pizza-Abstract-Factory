@@ -248,10 +248,10 @@ private:
     AbstractIngredientFactory *_ingredientFactory;
 };
 
-class SamplePizza : public AbstractPizza
+class BraccioDiFerroPizza : public AbstractPizza
 {
 public:
-    SamplePizza(AbstractIngredientFactory *ingredientFactory)
+    BraccioDiFerroPizza(AbstractIngredientFactory *ingredientFactory)
         : _ingredientFactory{ingredientFactory}
     {
     }
@@ -273,7 +273,7 @@ private:
 enum class PizzaTypes
 {
     CHEESE,
-    SAMPLE
+    BRACCIODIFERRO
 };
 
 // Pizza stores.
@@ -311,10 +311,10 @@ protected:
             pizza->setName("NY Cheese Pizza");
             pizza->prepare();
         }
-        if (type == PizzaTypes::SAMPLE)
+        if (type == PizzaTypes::BRACCIODIFERRO)
         {
-            pizza = new SamplePizza(ingredientFactory);
-            pizza->setName("NY Sample Pizza");
+            pizza = new BraccioDiFerroPizza(ingredientFactory);
+            pizza->setName("NY Braccio di Ferro Pizza");
             pizza->prepare();
         }
 
@@ -336,10 +336,10 @@ protected:
             pizza->setName("Moscow Cheese Pizza");
             pizza->prepare();
         }
-        if (type == PizzaTypes::SAMPLE)
+        if (type == PizzaTypes::BRACCIODIFERRO)
         {
-            pizza = new SamplePizza(ingredientFactory);
-            pizza->setName("Moscow Sample Pizza");
+            pizza = new BraccioDiFerroPizza(ingredientFactory);
+            pizza->setName("Moscow Braccio di Ferro Pizza");
             pizza->prepare();
         }
 
@@ -352,14 +352,14 @@ int main()
     AbstractPizzaStore *NYStore = new NYPizzaStore;
     NYStore->orderPizza(PizzaTypes::CHEESE);
     std::cout << "\n\n";
-    NYStore->orderPizza(PizzaTypes::SAMPLE);
+    NYStore->orderPizza(PizzaTypes::BRACCIODIFERRO);
 
     std::cout << "\n\n\n";
 
     AbstractPizzaStore *MoscowStore = new MoscowPizzaStore;
     MoscowStore->orderPizza(PizzaTypes::CHEESE);
     std::cout << "\n\n";
-    MoscowStore->orderPizza(PizzaTypes::SAMPLE);
+    MoscowStore->orderPizza(PizzaTypes::BRACCIODIFERRO);
 
     return 0;
 }
