@@ -1,2 +1,3 @@
 # PizzaFactory
- Creational patterns test.
+ Creational pattern test.  
+ My howemork assigment.
