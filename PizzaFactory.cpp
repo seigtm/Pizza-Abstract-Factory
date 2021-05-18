@@ -1,8 +1,15 @@
 #include <iostream>
 #include <vector>
 
+// Ingredient.
+class AbstractIngredient
+{
+public:
+    virtual std::string get() const = 0;
+};
+
 // Cheese.
-class AbstractCheese
+class AbstractCheese : public AbstractIngredient
 {
 public:
     virtual std::string get() const = 0;
@@ -33,7 +40,7 @@ class MozzarellaCheese : public AbstractCheese
 };
 
 // Veggies.
-class AbstractVeggie
+class AbstractVeggie : public AbstractIngredient
 {
 public:
     virtual std::string get() const = 0;
@@ -67,7 +74,7 @@ public:
 };
 
 // Sauce.
-class AbstractSauce
+class AbstractSauce : public AbstractIngredient
 {
 public:
     virtual std::string get() const = 0;
@@ -181,6 +188,11 @@ public:
             str.append("\tName: " + _name + "\n");
         }
 
+        if (_mainIngredient)
+        {
+            str.append("\t! Main ingredient: " + _mainIngredient->get() + "\n");
+        }
+
         if (_cheese)
         {
             str.append("\tCheese: " + _cheese->get() + "\n");
@@ -203,10 +215,15 @@ public:
         return str;
     };
 
+    void setMainIngredient(AbstractIngredient *mainIngredient)
+    {
+        _mainIngredient = mainIngredient;
+    }
+
     void setVeggies(std::vector<AbstractVeggie *> *veggies)
     {
         _veggies = veggies;
-    };
+    }
 
     void setCheese(AbstractCheese *cheese)
     {
@@ -222,6 +239,7 @@ public:
 
 private:
     std::string _name;
+    AbstractIngredient *_mainIngredient;
     std::vector<AbstractVeggie *> *_veggies;
     AbstractCheese *_cheese;
     AbstractSauce *_sauce;
@@ -233,6 +251,7 @@ public:
     CheesePizza(AbstractIngredientFactory *ingredientFactory)
         : _ingredientFactory{ingredientFactory}
     {
+        setMainIngredient(new MozzarellaCheese);
     }
 
     std::string prepare() override
@@ -254,6 +273,7 @@ public:
     BraccioDiFerroPizza(AbstractIngredientFactory *ingredientFactory)
         : _ingredientFactory{ingredientFactory}
     {
+        setMainIngredient(new Mushroom);
     }
 
     std::string prepare() override
