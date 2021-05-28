@@ -1,5 +1,38 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <ctime>
+
+// Class to log pizza orders in text file.
+class Logger
+{
+public:
+    static Logger &instance()
+    {
+        static Logger logger;
+        return logger;
+    }
+
+    void write(std::string data)
+    {
+        time_t seconds = time(NULL);
+        tm timeinfo = *localtime(&seconds);
+        file << data << " " << asctime(&timeinfo) << "\n";
+    }
+
+private:
+    Logger()
+    {
+        file.open("log.txt", std::ios::app);
+    }
+
+    ~Logger()
+    {
+        file.close();
+    }
+
+    std::ofstream file;
+};
 
 // Ingredient.
 class AbstractIngredient
@@ -305,11 +338,10 @@ public:
         AbstractPizza *pizza = createPizza(type);
 
         std::string str{};
-        std::cout << "~~~ Making a " << pizza->getName() << "\n"
-                  << pizza->bake() << "\n"
-                  << pizza->cut() << "\n"
-                  << pizza->box() << "\n"
-                  << pizza->get();
+        str += "~~~ Making a " + pizza->getName() + "\n" + pizza->bake() + "\n" + pizza->cut() + "\n" + pizza->box() + "\n" + pizza->get() + "\n";
+
+        Logger::instance().write(str);
+
         return pizza;
     }
 
@@ -371,14 +403,10 @@ int main()
 {
     AbstractPizzaStore *NYStore = new NYPizzaStore;
     NYStore->orderPizza(PizzaTypes::CHEESE);
-    std::cout << "\n\n";
     NYStore->orderPizza(PizzaTypes::BRACCIODIFERRO);
-
-    std::cout << "\n\n\n";
 
     AbstractPizzaStore *MoscowStore = new MoscowPizzaStore;
     MoscowStore->orderPizza(PizzaTypes::CHEESE);
-    std::cout << "\n\n";
     MoscowStore->orderPizza(PizzaTypes::BRACCIODIFERRO);
 
     return 0;
