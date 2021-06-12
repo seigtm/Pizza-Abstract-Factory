@@ -26,6 +26,10 @@ private:
         file.open("log.txt", std::ios::app);
     }
 
+    Logger(const Logger &logger) = delete;
+
+    Logger &operator=(const Logger &logger) = delete;
+
     ~Logger()
     {
         file.close();
